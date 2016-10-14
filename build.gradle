@@ -13,6 +13,8 @@ ext {
 apply plugin: 'java'
 apply plugin: 'maven'
 
+sourceSets.main.java.srcDirs = [ "src/" ]
+
 [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 
 group = 'com.github.peterzagoranski'
