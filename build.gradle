@@ -22,6 +22,9 @@ version = '0.0.1'
 
 description = "gdx-elita"
 
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
 repositories {
         
      maven { url "http://repo.maven.apache.org/maven2" }
