@@ -1,1 +1,1 @@
-include ':elita'
+rootProject.name = 'gdx-elita'

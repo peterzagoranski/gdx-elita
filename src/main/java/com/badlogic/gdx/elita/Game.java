@@ -1,6 +1,6 @@
 package com.badlogic.gdx.elita;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.elita.services.IGoogleService;
 import com.badlogic.gdx.elita.services.IMusicService;
 import com.badlogic.gdx.elita.services.ISettingsService;
@@ -15,7 +15,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public abstract class Game extends com.badlogic.gdx.Game {
     public static final String LOG = Game.class.getSimpleName();
 
-    public static final int VIEWPORT_WIDTH = 480, VIEWPORT_HEIGHT = 854;
+    public static final int VIEWPORT_WIDTH = 854, VIEWPORT_HEIGHT = 480;
 
     // Whether we are in development mode
     public static final boolean DEV_MODE = false;
@@ -137,6 +137,6 @@ public abstract class Game extends com.badlogic.gdx.Game {
 
     protected void glClear() {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT );
     }
 }
