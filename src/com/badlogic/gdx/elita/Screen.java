@@ -8,33 +8,34 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("unused")
 public abstract class Screen<TGame extends Game> extends InputAdapter implements com.badlogic.gdx.Screen {
 
-    private final TGame mGame;
-    private final ArrayList<Stage> mStages;
+    private final TGame game;
+    private final ArrayList<Stage> stages;
 
-    private final InputMultiplexer mInputMultiplexer;
+    private final InputMultiplexer inputs;
 
     public Screen(final TGame game) {
-        this.mGame = game;
-        this.mStages = new ArrayList<Stage>();
+        this.game = game;
+        this.stages = new ArrayList<Stage>();
 
-        this.mInputMultiplexer = new InputMultiplexer();
-        Gdx.input.setInputProcessor(this.mInputMultiplexer);
+        this.inputs = new InputMultiplexer();
+        Gdx.input.setInputProcessor(this.inputs);
         Gdx.input.setCatchBackKey(true);
 
-        this.mInputMultiplexer.addProcessor(this);
+        this.inputs.addProcessor(this);
     }
 
     @Override
     public void show() {
-        Gdx.app.log(TGame.LOG, "Showing screen: " + getName());
+        this.game.log("Showing screen: " + getName());
     }
 
     @Override
     public void resize(int width, int height) {
-        Gdx.app.log(TGame.LOG, "Resizing screen: " + getName() + " to: " + width + " x " + height );
-        for(Stage stage : this.mStages) {
+        this.game.log("Resizing screen: " + getName() + " to: " + width + " x " + height );
+        for(Stage stage : this.stages) {
             stage.getViewport().update(width, height, true);
         }
     }
@@ -42,7 +43,7 @@ public abstract class Screen<TGame extends Game> extends InputAdapter implements
     @Override
     public void render(float delta) {
         // update and draw the actors
-        for(Stage stage : this.mStages) {
+        for(Stage stage : this.stages) {
             stage.act(delta);
             stage.draw();
         }
@@ -50,53 +51,53 @@ public abstract class Screen<TGame extends Game> extends InputAdapter implements
 
     @Override
     public void hide() {
-        Gdx.app.log(TGame.LOG, "Hiding screen: " + getName() );
+        this.game.log("Hiding screen: " + getName() );
 
         dispose();
     }
 
     @Override
     public void pause() {
-        Gdx.app.log(TGame.LOG, "Pausing screen: " + getName() );
+        this.game.log("Pausing screen: " + getName() );
     }
 
     @Override
     public void resume() {
-        Gdx.app.log(TGame.LOG, "Resuming screen: " + getName() );
+        this.game.log("Resuming screen: " + getName() );
     }
 
     @Override
     public void dispose() {
-        Gdx.app.log(TGame.LOG, "Disposing screen: " + getName());
+        this.game.log("Disposing screen: " + getName());
 
-        for(Stage stage : this.mStages) {
+        for(Stage stage : this.stages) {
             stage.dispose();
         }
     }
 
-    public TGame getGame() { return this.mGame; }
+    public TGame getGame() { return this.game; }
 
-    protected InputMultiplexer getInputMultiplexer() { return this.mInputMultiplexer; }
+    protected InputMultiplexer getInputMultiplexer() { return this.inputs; }
 
     protected void addStage(final Stage stage) {
-        Gdx.app.log(TGame.LOG, "Added stage: " + stage.getClass().getSimpleName());
-        this.mStages.add(stage);
+        this.game.log("Added stage: " + stage.getClass().getSimpleName());
+        this.stages.add(stage);
     }
 
     protected void addStage(final Stage stage, final int index) {
-        Gdx.app.log(TGame.LOG, "Added stage: " + stage.getClass().getSimpleName() + " at index: " + index);
-        this.mStages.add(index, stage);
+        this.game.log("Added stage: " + stage.getClass().getSimpleName() + " at index: " + index);
+        this.stages.add(index, stage);
     }
 
     protected void addStageAndProcessor(final Stage stage) {
-        Gdx.app.log(TGame.LOG, "Added stage and processor: " + stage.getClass().getSimpleName());
+        this.game.log("Added stage and processor: " + stage.getClass().getSimpleName());
 
         this.addStage(stage);
         this.getInputMultiplexer().addProcessor(stage);
     }
 
     protected void addStageAndProcessor(final Stage stage, final int index) {
-        Gdx.app.log(TGame.LOG, "Added stage: " + stage.getClass().getSimpleName() + " and processor at index: " + index);
+        this.game.log("Added stage: " + stage.getClass().getSimpleName() + " and processor at index: " + index);
 
         this.addStage(stage);
         this.getInputMultiplexer().addProcessor(index, stage);

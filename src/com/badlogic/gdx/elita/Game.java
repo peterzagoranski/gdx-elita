@@ -1,7 +1,6 @@
 package com.badlogic.gdx.elita;
 
 import com.badlogic.gdx.*;
-import com.badlogic.gdx.elita.services.IGoogleService;
 import com.badlogic.gdx.elita.services.IMusicService;
 import com.badlogic.gdx.elita.services.ISettingsService;
 import com.badlogic.gdx.elita.services.ISoundService;
@@ -12,27 +11,24 @@ import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+@SuppressWarnings("unused")
 public abstract class Game extends com.badlogic.gdx.Game {
-    public static final String LOG = Game.class.getSimpleName();
+    public Game(final int width, final int height, final boolean debug) {
+        this.width = width;
+        this.height = height;
+        this.debug = debug;
+    }
 
-    public static final int VIEWPORT_WIDTH = 854, VIEWPORT_HEIGHT = 480;
+    public Game(final int width, final int height) {
+        this(width, height, false);
+    }
 
-    // Whether we are in development mode
-    public static final boolean DEV_MODE = false;
+    public Game(final boolean debug) {
+        this(480, 854, debug);
+    }
 
-    // A LibGdx helper class that logs the current FPS each second
-    private FPSLogger fpsLogger;
-
-    private final IGoogleService googleServices;
-    private SpriteBatch mBatch;
-
-    // services
-    private ISettingsService settingsService;
-    private IMusicService musicService;
-    private ISoundService soundService;
-
-    public Game(final IGoogleService googleServices) {
-        this.googleServices = googleServices;
+    public Game() {
+        this(false);
     }
 
     public ISettingsService getSettingsService() {
@@ -56,13 +52,11 @@ public abstract class Game extends com.badlogic.gdx.Game {
         return soundService;
     }
 
-    public IGoogleService getGoogleServices() { return googleServices; }
-
     @Override
     public void create() {
-        Gdx.app.log(LOG, "Creating game on " + Gdx.app.getType() );
+        this.log("Creating game on " + Gdx.app.getType() );
 
-        this.mBatch = new SpriteBatch();
+        this.batch = new SpriteBatch();
 
         // create the music manager
         getMusicService().setVolume(getSettingsService().getVolume());
@@ -80,7 +74,7 @@ public abstract class Game extends com.badlogic.gdx.Game {
     public void resize(int width, int height )
     {
         super.resize( width, height );
-        Gdx.app.log(LOG, "Resizing game to: " + width + " x " + height );
+        this.log("Resizing game to: " + width + " x " + height );
     }
 
     @Override
@@ -90,53 +84,71 @@ public abstract class Game extends com.badlogic.gdx.Game {
         super.render();
 
         // output the current FPS
-        if(DEV_MODE) fpsLogger.log();
+        if(debug) fpsLogger.log();
     }
 
     @Override
     public void pause() {
         super.pause();
-        Gdx.app.log(LOG, "Pausing game" );
+        this.log("Pausing game" );
     }
 
     @Override
     public void resume() {
         super.resume();
-        Gdx.app.log(LOG, "Resuming game" );
+        this.log("Resuming game" );
     }
 
     @Override
     public void setScreen(com.badlogic.gdx.Screen screen) {
         super.setScreen( screen );
-        Gdx.app.log(LOG, "Setting screen: " + screen.getClass().getSimpleName());
+        this.log("Setting screen: " + screen.getClass().getSimpleName());
     }
 
     @Override
     public void dispose() {
         super.dispose();
-        Gdx.app.log(LOG, "Disposing game");
+        this.log("Disposing game");
 
         // dispose some services
         getMusicService().dispose();
         getSoundService().dispose();
 
-        if (null != this.mBatch) this.mBatch.dispose();
+        if (null != this.batch) this.batch.dispose();
     }
 
     public SpriteBatch getBatch() {
-        return this.mBatch;
+        return this.batch;
     }
 
     public int getViewportWidth() {
-        return VIEWPORT_WIDTH;
+        return this.width;
     }
 
     public int getViewportHeight() {
-        return VIEWPORT_HEIGHT;
+        return this.height;
+    }
+
+    public void log(final String message) {
+        if (debug) Gdx.app.log(this.getClass().getSimpleName(), message);
     }
 
     protected void glClear() {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
-        Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT );
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
+
+    // A LibGdx helper class that logs the current FPS each second
+    private FPSLogger fpsLogger;
+
+    private SpriteBatch batch;
+
+    // services
+    private ISettingsService settingsService;
+    private IMusicService musicService;
+    private ISoundService soundService;
+
+    private final int width;
+    private final int height;
+    private final boolean debug;
 }

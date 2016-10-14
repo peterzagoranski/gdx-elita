@@ -46,7 +46,7 @@ public class MusicService implements IMusicService {
         if( musicBeingPlayed == music) return;
 
         // do some logging
-        Gdx.app.log(Game.LOG, "Playing music: " +  music);
+        Gdx.app.log(getClass().getSimpleName(), "Playing music: " +  music);
 
         music.setVolume( volume );
         music.setLooping( true );
@@ -62,7 +62,7 @@ public class MusicService implements IMusicService {
     public void stop()
     {
         if( musicBeingPlayed != null ) {
-            Gdx.app.log(Game.LOG, "Stopping current music");
+            Gdx.app.log(getClass().getSimpleName(), "Stopping current music");
             musicBeingPlayed.stop();
             musicBeingPlayed.dispose();
             musicBeingPlayed = null;
@@ -74,7 +74,7 @@ public class MusicService implements IMusicService {
      */
     public void setVolume(float volume)
     {
-        Gdx.app.log(Game.LOG, "Adjusting music volume to: " + volume);
+        Gdx.app.log(getClass().getSimpleName(), "Adjusting music volume to: " + volume);
 
         // check and set the new volume
         if( volume < 0 || volume > 1f ) {
@@ -105,7 +105,7 @@ public class MusicService implements IMusicService {
      * Disposes the music manager.
      */
     public void dispose() {
-        Gdx.app.log(Game.LOG, "Disposing music service");
+        Gdx.app.log(getClass().getSimpleName(), "Disposing music service");
         stop();
     }
 }

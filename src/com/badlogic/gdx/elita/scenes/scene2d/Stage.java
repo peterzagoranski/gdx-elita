@@ -21,7 +21,7 @@ public class Stage extends com.badlogic.gdx.scenes.scene2d.Stage {
 
     @Override
     public void dispose() {
-        Gdx.app.log(Game.LOG, "Disposing stage: " + getName());
+        Gdx.app.log(getClass().getSimpleName(), "Disposing stage: " + getName());
 
         super.dispose();
     }

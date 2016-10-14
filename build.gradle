@@ -15,23 +15,18 @@ apply plugin: 'maven'
 
 sourceSets.main.java.srcDirs = [ "src/" ]
 
-[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 group = 'com.github.peterzagoranski'
-version = '0.1.7'
+version = '0.0.1'
 
 description = "gdx-elita"
-
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
 
 repositories {
         
      maven { url "http://repo.maven.apache.org/maven2" }
 }
 dependencies {
-    testCompile group: 'junit', name: 'junit', version:'4.11'
-
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
 }
 
@@ -46,14 +41,8 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
 artifacts {
     archives sourcesJar
-    archives javadocJar
 }
 
 // To specify a license in the pom:

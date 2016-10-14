@@ -43,7 +43,7 @@ public class SoundService implements ISoundService {
         if( ! enabled ) return;
 
 
-        Gdx.app.log(Game.LOG, "Playing sound: " +  sound);
+        Gdx.app.log(getClass().getSimpleName(), "Playing sound: " +  sound);
 
         if(loop) {
             sound.loop(volume);
@@ -57,7 +57,7 @@ public class SoundService implements ISoundService {
      */
     public void setVolume(float volume )
     {
-        Gdx.app.log(Game.LOG, "Adjusting sound volume to: " + volume );
+        Gdx.app.log(getClass().getSimpleName(), "Adjusting sound volume to: " + volume );
 
         // check and set the new volume
         if( volume < 0 || volume > 1f ) {
@@ -79,6 +79,6 @@ public class SoundService implements ISoundService {
      */
     @Override
     public void dispose() {
-        Gdx.app.log(Game.LOG, "Disposing sound service");
+        Gdx.app.log(getClass().getSimpleName(), "Disposing sound service");
     }
 }
