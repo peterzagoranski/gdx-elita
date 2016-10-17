@@ -22,7 +22,7 @@ public class Assets {
 
             manager.finishLoadingAsset(descriptor.fileName);
 
-            if (descriptor.type.isInstance(BitmapFont.class)) {
+            if (descriptor.type.getClass().isInstance(BitmapFont.class)) {
                 final BitmapFont font = (BitmapFont)manager.get(descriptor);
                 font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             }
