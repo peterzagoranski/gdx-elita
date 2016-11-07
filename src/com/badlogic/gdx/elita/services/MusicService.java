@@ -64,7 +64,7 @@ public class MusicService implements IMusicService {
         if( musicBeingPlayed != null ) {
             Gdx.app.log(getClass().getSimpleName(), "Stopping current music");
             musicBeingPlayed.stop();
-            musicBeingPlayed.dispose();
+            //musicBeingPlayed.dispose();
             musicBeingPlayed = null;
         }
     }
